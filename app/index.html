@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Search</title>
+
+    <style>
+    body {
+        background-color: #eee;
+        color: #333;
+        font-family: 'Helvetica Neue';
+        font-size: 2rem;
+    }
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <input id="search" type="search" placeholder="Search..."></input>
+
+    <script src="bower_components/lunr.js/lunr.js"></script>
+
+    <script>
+    // lunrjs.com/example/app.js
+
+    var index = lunr(function() {
+        this.field('title', {
+            boost: 10
+        })
+        this.field('body')
+        this.ref('id')
+    });
+
+    index.add({
+        id: 1,
+        title: 'Foo',
+        body: 'Foo foo foo!'
+    });
+
+    index.add({
+        id: 2,
+        title: 'Bar',
+        body: 'Bar bar bar!'
+    });
+
+    index.add({
+        id: 3,
+        title: 'Cat',
+        body: 'Cat cat cat!'
+    });
+
+    var searchElement = document.querySelector('#search'),
+        doSearch = function(e) {
+            e.preventDefault();
+            var q = this.value,
+                results;
+            if (q.length > 1) {
+                console.log(index.search(q));
+            }
+        };
+
+    searchElement.addEventListener('keyup', doSearch, false);
+    </script>
+
+</body>
+
+</html>
